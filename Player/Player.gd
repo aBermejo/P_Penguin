@@ -8,7 +8,7 @@ extends CharacterBody2D
 ## Except for separate air and ground acceleration, as I don't think it's necessary.
 
 
-# BASIC MOVEMENT VARAIABLES ---------------- #
+# BASIC MOVEMENT VARIABLES ---------------- #
 var face_direction := 1
 var x_dir := 1
 
@@ -23,7 +23,7 @@ var x_dir := 1
 @export var gravity_max : float = 1020
 # ------------- #
 
-# JUMP VARAIABLES ------------------- #
+# JUMP VARIABLES ------------------- #
 @export var jump_force : float = 1400
 @export var jump_cut : float = 0.25
 @export var jump_gravity_max : float = 500
@@ -38,7 +38,15 @@ var jump_buffer_timer : float = 0
 var is_jumping := false
 # ----------------------------------- #
 
-
+# DASH VARIABLES ------------------- #
+var can_dash := true
+var is_dashing := false
+@export var dash_buffer : float = 0.5
+var dash_buffer_timer : float = 0
+@export var dash_duration : float = 0.05
+var dash_duration_timer : float = 0
+var dash_speed : float = 1.2
+# ----------------------------------- #
 # All iputs we want to keep track of
 func get_input() -> Dictionary:
 	return {
@@ -46,18 +54,39 @@ func get_input() -> Dictionary:
 		"y": int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up")),
 		"just_jump": Input.is_action_just_pressed("jump") == true,
 		"jump": Input.is_action_pressed("jump") == true,
-		"released_jump": Input.is_action_just_released("jump") == true
+		"released_jump": Input.is_action_just_released("jump") == true,
+		"dash": Input.is_action_just_pressed("dash")
 	}
-
 
 func _physics_process(delta: float) -> void:
 	x_movement(delta)
 	jump_logic(delta)
+	dash_logic(delta)
 	apply_gravity(delta)
-	
 	timers(delta)
 	move_and_slide()
 
+
+func dash_logic(delta: float) -> void:
+	if dash_buffer_timer <= 0:
+		can_dash = true
+	if get_input()["dash"]:
+		dash_buffer_timer = dash_buffer
+	
+	if dash_buffer_timer > 0 and can_dash:
+		can_dash = false
+		is_dashing = true
+		dash_duration_timer = dash_duration
+		
+		
+	if dash_duration_timer > 0:
+		is_dashing = true
+		velocity.x *= dash_speed
+	else:
+		is_dashing = false
+		velocity.x /= dash_speed
+		
+		
 
 func x_movement(delta: float) -> void:
 	x_dir = get_input()["x"]
@@ -67,11 +96,6 @@ func x_movement(delta: float) -> void:
 		velocity.x = Vector2(velocity.x, 0).move_toward(Vector2(0,0), deceleration * delta).x
 		return
 	
-	# If we are doing movement inputs and above max speed, don't accelerate nor decelerate
-	# Except if we are turning
-	# (This keeps our momentum gained from outside or slopes)
-	if abs(velocity.x) >= max_speed and sign(velocity.x) == x_dir:
-		return
 	
 	# Are we turning?
 	# Deciding between acceleration and turn_acceleration
@@ -80,6 +104,12 @@ func x_movement(delta: float) -> void:
 	# Accelerate
 	velocity.x += x_dir * accel_rate * delta
 	
+	## If we are doing movement inputs and above max speed, don't accelerate nor decelerate
+	## Except if we are turning
+	## (This keeps our momentum gained from outside or slopes)
+	if abs(velocity.x) >= max_speed and sign(velocity.x) == x_dir:
+		return
+		
 	set_direction(x_dir) # This is purely for visuals
 
 
@@ -154,4 +184,6 @@ func timers(delta: float) -> void:
 	# This way everything is contained in just 1 script with no node requirements
 	jump_coyote_timer -= delta
 	jump_buffer_timer -= delta
+	dash_buffer_timer -= delta
+	dash_duration_timer -= delta
 
