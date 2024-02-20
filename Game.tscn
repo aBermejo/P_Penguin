@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://co3cuuqf2l03t"]
+
+[ext_resource type="Script" path="res://_Scripts/Game.gd" id="1_l272f"]
+[ext_resource type="PackedScene" uid="uid://cvboky6pqlyk0" path="res://Player/Player.tscn" id="2_wcduy"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_l272f")
+starting_map = "Levels/Level_test_1.tscn"
+
+[node name="Player" parent="." instance=ExtResource("2_wcduy")]
+position = Vector2(24, 32)
+max_speed = null
+gravity_acceleration = null
+gravity_max = null
+jump_hang_treshold = null
+jump_coyote = null
+jump_buffer = null
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
