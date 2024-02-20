@@ -47,6 +47,10 @@ var dash_buffer_timer : float = 0
 var dash_duration_timer : float = 0
 var dash_speed : float = 1.2
 # ----------------------------------- #
+
+var reset_position: Vector2
+var abilities: Array[StringName]
+
 # All iputs we want to keep track of
 func get_input() -> Dictionary:
 	return {
@@ -187,3 +191,6 @@ func timers(delta: float) -> void:
 	dash_buffer_timer -= delta
 	dash_duration_timer -= delta
 
+func on_enter():
+	# Position for kill system. Assigned when entering new room (see Game.gd).
+	reset_position = position

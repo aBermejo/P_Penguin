@@ -8,11 +8,11 @@ const SAVE_PATH = "user://example_save_data.sav"
 # The game starts in this map. Note that it's scene name only, just like MetSys refers to rooms.
 @export var starting_map: String
 
-# Number of collected collectibles. Setting it also updates the counter.
-var collectibles: int:
-	set(count):
-		collectibles = count
-		%CollectibleCount.text = "%d/6" % count
+## Number of collected collectibles. Setting it also updates the counter.
+var collectibles: int
+	#set(count):
+		#collectibles = count
+		#%CollectibleCount.text = "%d/6" % count
 
 # The coordinates of generated rooms. MetSys does not keep this list, so it needs to be done manually.
 var generated_rooms: Array[Vector3i]
