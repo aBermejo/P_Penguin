@@ -2,7 +2,6 @@ extends StaticBody2D
 
 class_name PressurePlate
 
-@onready var colision: CollisionShape2D = $CollisionShape2D
 @export var mechanism: StaticBody2D
 
 var is_pressed: bool = false

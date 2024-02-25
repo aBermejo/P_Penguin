@@ -1,5 +1,5 @@
 [0,2,0]
--1,0,0,0|||Levels/Level_test_1.tscn
+-1,1,0,0|||Levels/Level_test_1.tscn
 [1,2,0]
 1,0,-1,0|||Levels/Level_test_1.tscn
 [2,0,0]
@@ -8,3 +8,5 @@
 0,-1,0,-1|||Levels/Level_test_2.tscn
 [2,2,0]
 0,0,1,-1|||Levels/Level_test_2.tscn
+[0,3,0]
+0,0,0,1|||Levels/Level_test_3.tscn
