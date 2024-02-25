@@ -7,6 +7,8 @@ extends CharacterBody2D
 ## https://www.youtube.com/watch?v=2S3g8CgBG1g
 ## Except for separate air and ground acceleration, as I don't think it's necessary.
 
+#region Variables
+
 
 # BASIC MOVEMENT VARIABLES ---------------- #
 var face_direction := 1
@@ -51,6 +53,11 @@ var dash_speed : float = 1.2
 var reset_position: Vector2
 var abilities: Array[StringName]
 
+
+var scene = preload("res://Penguin/Penguin.tscn")
+var penguins: int = 0
+#endregion
+
 # All iputs we want to keep track of
 func get_input() -> Dictionary:
 	return {
@@ -59,8 +66,14 @@ func get_input() -> Dictionary:
 		"just_jump": Input.is_action_just_pressed("jump") == true,
 		"jump": Input.is_action_pressed("jump") == true,
 		"released_jump": Input.is_action_just_released("jump") == true,
-		"dash": Input.is_action_just_pressed("dash")
+		"dash": Input.is_action_just_pressed("dash"),
+		"action": Input.is_action_just_pressed("action")
 	}
+
+func _process(delta):
+	if get_input()["action"]:
+		penguin()
+		
 
 func _physics_process(delta: float) -> void:
 	x_movement(delta)
@@ -70,6 +83,8 @@ func _physics_process(delta: float) -> void:
 	timers(delta)
 	move_and_slide()
 
+
+#region Funciones de movimiento
 
 func dash_logic(delta: float) -> void:
 	if dash_buffer_timer <= 0:
@@ -89,8 +104,6 @@ func dash_logic(delta: float) -> void:
 	else:
 		is_dashing = false
 		velocity.x /= dash_speed
-		
-		
 
 func x_movement(delta: float) -> void:
 	x_dir = get_input()["x"]
@@ -116,7 +129,6 @@ func x_movement(delta: float) -> void:
 		
 	set_direction(x_dir) # This is purely for visuals
 
-
 func set_direction(hor_direction) -> void:
 	# This is purely for visuals
 	# Turning relies on the scale of the player
@@ -125,7 +137,6 @@ func set_direction(hor_direction) -> void:
 		return
 	apply_scale(Vector2(hor_direction * face_direction, 1)) # flip
 	face_direction = hor_direction # remember direction
-
 
 func jump_logic(_delta: float) -> void:
 	# Reset our jump requirements
@@ -160,7 +171,6 @@ func jump_logic(_delta: float) -> void:
 	# But it solves a problem where jumping into 
 	if is_on_ceiling(): velocity.y = jump_hang_treshold + 100.0
 
-
 func apply_gravity(delta: float) -> void:
 	var applied_gravity : float = 0
 	
@@ -182,7 +192,6 @@ func apply_gravity(delta: float) -> void:
 	
 	velocity.y += applied_gravity
 
-
 func timers(delta: float) -> void:
 	# Using timer nodes here would mean unnececary functions and node calls
 	# This way everything is contained in just 1 script with no node requirements
@@ -191,6 +200,15 @@ func timers(delta: float) -> void:
 	dash_buffer_timer -= delta
 	dash_duration_timer -= delta
 
+#endregion
+
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see Game.gd).
 	reset_position = position
+
+func penguin():
+	var pingu = scene.instantiate()
+	penguins += 1
+	pingu.position.x = position.x - (50*penguins)
+	pingu.position.y = position.y
+	get_tree().root.add_child(pingu)
