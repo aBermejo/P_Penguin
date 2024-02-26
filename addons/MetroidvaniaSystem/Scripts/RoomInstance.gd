@@ -113,6 +113,7 @@ func adjust_camera_limits(camera: Camera2D):
 	camera.limit_right = get_size().x
 	camera.limit_bottom = get_size().y
 
+
 ## Returns the full size of this room, based on the cells and [code]in_game_cell_size[/code] defined in MetSys Settings.
 func get_size() -> Vector2:
 	return Vector2(max_cell - min_cell + Vector2i.ONE) * MetSys.settings.in_game_cell_size
