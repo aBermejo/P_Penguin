@@ -8,6 +8,11 @@ const JUMP_VELOCITY = -400.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var player = get_tree().get_nodes_in_group("Player")[0]
 
+func _ready():
+	await get_tree().create_timer(10).timeout
+	queue_free()
+
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
