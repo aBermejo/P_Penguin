@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvboky6pqlyk0"]
+[gd_scene load_steps=9 format=3 uid="uid://cvboky6pqlyk0"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1"]
 [ext_resource type="Script" path="res://Player/Sprite.gd" id="2"]
@@ -48,6 +48,9 @@ _data = {
 "Land": SubResource("4")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4vmxn"]
+size = Vector2(32, 32)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 10
 collision_mask = 14
@@ -93,3 +96,12 @@ root_node = NodePath("")
 libraries = {
 "": SubResource("AnimationLibrary_1lb64")
 }
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_4vmxn")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-17, -24)

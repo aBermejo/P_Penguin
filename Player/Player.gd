@@ -56,6 +56,8 @@ var abilities: Array[StringName]
 
 var scene = preload("res://Penguin/Penguin.tscn")
 var penguins: int = 0
+var canGrab: bool = true
+
 #endregion
 
 # All iputs we want to keep track of
@@ -67,13 +69,13 @@ func get_input() -> Dictionary:
 		"jump": Input.is_action_pressed("jump") == true,
 		"released_jump": Input.is_action_just_released("jump") == true,
 		"dash": Input.is_action_just_pressed("dash"),
-		"action": Input.is_action_just_pressed("action")
+		"action": Input.is_action_just_pressed("action"),
+		"grab": Input.is_action_just_pressed("grab")
 	}
 
 func _process(delta):
 	if get_input()["action"]:
 		penguin()
-		
 
 func _physics_process(delta: float) -> void:
 	x_movement(delta)
@@ -95,8 +97,7 @@ func dash_logic(delta: float) -> void:
 	if dash_buffer_timer > 0 and can_dash:
 		can_dash = false
 		is_dashing = true
-		dash_duration_timer = dash_duration
-		
+		dash_duration_timer = dash_duration		
 		
 	if dash_duration_timer > 0:
 		is_dashing = true
@@ -209,6 +210,10 @@ func on_enter():
 func penguin():
 	var pingu = scene.instantiate()
 	penguins += 1
-	pingu.position.x = position.x - (50*penguins)
+	if face_direction == 1:
+		pingu.position.x = position.x - (50*penguins)
+	else:
+		pingu.position.x = position.x + (50*penguins)
 	pingu.position.y = position.y
 	get_tree().root.add_child(pingu)
+
