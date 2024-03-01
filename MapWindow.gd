@@ -55,10 +55,10 @@ func _input(event: InputEvent) -> void:
 				visible = not visible
 				if visible:
 					update_offset()
-			elif event.keycode == KEY_D:
-				# D toggles position tracking (delta vector).
-				show_delta = not show_delta
-				queue_redraw()
+			#elif event.keycode == KEY_D:
+				## D toggles position tracking (delta vector).
+				#show_delta = not show_delta
+				#queue_redraw()
 
 func update_offset():
 	# Update the map offset based on the current position.
