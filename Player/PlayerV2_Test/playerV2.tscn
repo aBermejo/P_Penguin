@@ -41,7 +41,7 @@ animations = [{
 radius = 8.0
 height = 40.0
 
-[node name="PlayerV2" type="CharacterBody2D"]
+[node name="PlayerV2" type="CharacterBody2D" groups=["Player"]]
 texture_filter = 1
 scale = Vector2(1.98082, 2.04247)
 collision_mask = 14
