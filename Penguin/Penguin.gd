@@ -8,16 +8,16 @@ const JUMP_VELOCITY = -400.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var player = get_tree().get_nodes_in_group("Player")[0]
 var grabbed: bool = false
+var deleting: bool = true
 var isBeingThrowed: bool = false
 var throwTarget: Vector2 = Vector2(0,0)
+#TODO: Si está agarrado no despawnea, crear states suelto o sujeto.
 
-
-func _ready():
-	await get_tree().create_timer(20).timeout
-	queue_free()
-	player.penguins -= 1
-	
-
+func _process(delta):
+	if deleting:
+		await get_tree().create_timer(5).timeout
+		if deleting:
+			delete()
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -40,10 +40,12 @@ func _input(event):
 	if player in bodies and Input.is_action_just_pressed("grab") and player.canGrab and grabbed == false:
 		grabbed = true
 		player.canGrab = false
+		deleting = false
 	if Input.is_action_just_pressed("throw") and grabbed == true:
 		grabbed = false
 		player.canGrab = true
 		isBeingThrowed = true
+		deleting = true
 		if player.face_direction == 1:
 			throwTarget = Vector2(position.x + 250, position.y)
 		else:
@@ -55,3 +57,6 @@ func throw(target):
 	if position.distance_to(throwTarget) < 5:
 		isBeingThrowed = false
 	
+func delete():
+	player.penguins -= 1
+	queue_free()
