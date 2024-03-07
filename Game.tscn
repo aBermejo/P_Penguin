@@ -32,6 +32,12 @@ _data = {
 script = ExtResource("1_l272f")
 
 [node name="Player" parent="." instance=ExtResource("5_67rri")]
+position = Vector2(-2, -153)
+max_speed = 9000.0
+gravity_max = 900.0
+jump_force = 1250.0
+jump_cut = 0.5
+dash_duration = 0.03
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -42.5)

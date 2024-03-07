@@ -55,3 +55,13 @@ func throw(target):
 	if position.distance_to(throwTarget) < 5:
 		isBeingThrowed = false
 	
+
+
+func _on_area_2d_area_entered(area):
+	isBeingThrowed = false
+
+
+
+
+func _on_area_2d_body_entered(body):
+	isBeingThrowed = false
