@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dqr2e1vltb3my"]
+
+[ext_resource type="Texture2D" uid="uid://x5vnxif0xmau" path="res://Art/Enemies/character_0003.png" id="1_fbne3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkbq7"]
+atlas = ExtResource("1_fbne3")
+region = Rect2(0, 0, 24, 24)
+
+[resource]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkbq7")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

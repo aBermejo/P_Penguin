@@ -1,7 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://c7uvx50om1kui"]
+[gd_scene load_steps=14 format=3 uid="uid://c7uvx50om1kui"]
 
 [ext_resource type="Texture2D" uid="uid://jo01y4ijrkq5" path="res://Art/PJ/mockUp_pj-Sheet.png" id="1_dkew0"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_m3lg1"]
+[ext_resource type="Texture2D" uid="uid://cj7xx4qs8crdj" path="res://Art/PJ/attackMockUp.png" id="2_sli8w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_diyuo"]
+atlas = ExtResource("2_sli8w")
+region = Rect2(0, 0, 63, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rpne"]
+atlas = ExtResource("2_sli8w")
+region = Rect2(63, 0, 63, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lo2s"]
+atlas = ExtResource("2_sli8w")
+region = Rect2(126, 0, 63, 42)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bnl45"]
 atlas = ExtResource("1_dkew0")
@@ -17,6 +30,32 @@ region = Rect2(126, 0, 63, 42)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_frcpc"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_diyuo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6rpne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lo2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lo2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lo2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lo2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lo2s")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
 "frames": [],
 "loop": true,
 "name": &"default",
@@ -41,22 +80,46 @@ animations = [{
 radius = 8.0
 height = 40.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8kvtd"]
+radius = 5.87524
+height = 11.7505
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ucyjx"]
+height = 30.3155
+
 [node name="PlayerV2" type="CharacterBody2D" groups=["Player"]]
 texture_filter = 1
+position = Vector2(0, -43)
 scale = Vector2(1.98082, 2.04247)
 collision_mask = 14
 script = ExtResource("1_m3lg1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_frcpc")
 animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.12648
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_pcgab")
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(-9.59199, -30.845)
+
+[node name="AttackZone" type="Marker2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="AttackZone"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone/Area2D"]
+position = Vector2(16.6598, -1.90735e-06)
+scale = Vector2(2.30314, 0.691092)
+shape = SubResource("CapsuleShape2D_8kvtd")
+disabled = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(0.783955, 1.33737)
+shape = SubResource("CapsuleShape2D_ucyjx")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
