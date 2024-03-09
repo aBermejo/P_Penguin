@@ -93,6 +93,8 @@ position = Vector2(0, -43)
 scale = Vector2(1.98082, 2.04247)
 collision_mask = 14
 script = ExtResource("1_m3lg1")
+max_speed = 10600.0
+acceleration = 5880.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_frcpc")
@@ -104,6 +106,7 @@ frame_progress = 0.12648
 shape = SubResource("CapsuleShape2D_pcgab")
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
 
 [node name="AttackZone" type="Marker2D" parent="."]
 
@@ -123,3 +126,4 @@ scale = Vector2(0.783955, 1.33737)
 shape = SubResource("CapsuleShape2D_ucyjx")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+

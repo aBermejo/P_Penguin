@@ -110,3 +110,4 @@ func set_collision_shape_lying():
 	$Area2D/CollisionShape2D.shape.extents = Vector2(23,9)
 	$Area2D/CollisionShape2D.position = Vector2(0.5,2.5)
 	$Area2D/CollisionShape2D.scale = Vector2(0.5,0.5)
+	
