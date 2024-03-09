@@ -6,7 +6,7 @@ extends CharacterBody2D
 ## Beyond coyote time and a jump buffer I go through all the things listed in the following video:
 ## https://www.youtube.com/watch?v=2S3g8CgBG1g
 ## Except for separate air and ground acceleration, as I don't think it's necessary.
-
+class_name Player
 #region Variables
 
 
@@ -52,12 +52,16 @@ var dash_speed : float = 1.2
 
 var reset_position: Vector2
 var abilities: Array[StringName]
-
-
-var scene = preload("res://Penguin/Penguin.tscn")
+var is_attacking := false
+@onready var animatedSprite := $AnimatedSprite2D
+@onready var attack_Zone_Collision := $AttackZone/Area2D/CollisionShape2D
+@onready var altura_Centro_Inicial := position.y
+var penguin_scene = preload("res://Penguin/Penguin.tscn")
+var max_penguins: int = 2
 var penguins: int = 0
 var canGrab: bool = true
-
+@onready var collision_shape := $CollisionShape2D
+var health: int = 5
 #endregion
 
 # All iputs we want to keep track of
@@ -70,19 +74,24 @@ func get_input() -> Dictionary:
 		"released_jump": Input.is_action_just_released("jump") == true,
 		"dash": Input.is_action_just_pressed("dash"),
 		"action": Input.is_action_just_pressed("action"),
-		"grab": Input.is_action_just_pressed("grab")
+		"grab": Input.is_action_just_pressed("grab"),
+		"attack": Input.is_action_just_pressed("attack")
 	}
 
 func _process(delta):
-	if get_input()["action"]:
+	if get_input()["action"] and penguins < max_penguins:
 		penguin()
+	if is_attacking == false and get_input()["attack"]:
+		attack()
+	if is_attacking:
+		attack_control()
+	timers(delta)
 
 func _physics_process(delta: float) -> void:
 	x_movement(delta)
 	jump_logic(delta)
 	dash_logic(delta)
 	apply_gravity(delta)
-	timers(delta)
 	move_and_slide()
 
 
@@ -208,12 +217,29 @@ func on_enter():
 	reset_position = position
 
 func penguin():
-	var pingu = scene.instantiate()
+	var pingu = penguin_scene.instantiate()
 	penguins += 1
 	if face_direction == 1:
-		pingu.position.x = position.x - (50*penguins)
+		pingu.position.x = position.x - (100*penguins)
 	else:
-		pingu.position.x = position.x + (50*penguins)
+		pingu.position.x = position.x + (100*penguins)
 	pingu.position.y = position.y
 	get_tree().root.add_child(pingu)
 
+func attack():
+	is_attacking = true
+	attack_Zone_Collision.disabled = false
+	animatedSprite.play("attack")
+
+func attack_control():
+	if animatedSprite.animation_finished and animatedSprite.frame != 0:
+		attack_Zone_Collision.disabled = true
+		animatedSprite.play("idle")
+		is_attacking = false
+
+
+func _on_area_2d_area_entered(area):
+	if area.owner is Enemy:
+		health -= area.get_node("..").damage
+		if health == 0:
+			pass #TODO: Reiniciar al último save
