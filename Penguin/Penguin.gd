@@ -25,6 +25,7 @@ func _ready():
 	duration_timer = duration
 	state = states.FOLLOWING
 	posicionDeLaCola = player.penguins
+	print(posicionDeLaCola)
 	
 func _process(delta):
 	timers(delta)
@@ -38,7 +39,7 @@ func _physics_process(delta):
 		states.FOLLOWING:
 			animatedSprite.play("idle")
 			set_collision_shape_standing()
-			var target = Vector2(player.position.x, player.position.y - player.altura_Centro_Inicial)
+			var target = Vector2(player.position.x, player.position.y +19)
 			velocity = position.direction_to(target) * SPEED
 			if not is_on_floor():
 				velocity.y += gravity * delta

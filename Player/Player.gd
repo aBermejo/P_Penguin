@@ -223,7 +223,7 @@ func penguin():
 		pingu.position.x = position.x - (100*penguins)
 	else:
 		pingu.position.x = position.x + (100*penguins)
-	pingu.position.y = position.y #- altura_Centro_Inicial
+	pingu.position.y = position.y
 	get_tree().root.add_child(pingu)
 
 func attack():
