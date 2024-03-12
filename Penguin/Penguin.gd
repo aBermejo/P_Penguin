@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Penguin
 
 const SPEED = 300.0
 const THROW_SPEED = 1000.0

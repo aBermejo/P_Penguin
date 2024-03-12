@@ -98,9 +98,8 @@ acceleration = 5880.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_frcpc")
-animation = &"idle"
+animation = &"attack"
 autoplay = "idle"
-frame_progress = 0.12648
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pcgab")

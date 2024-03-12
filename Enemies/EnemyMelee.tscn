@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddxqpxc3mf42d"]
+
+[ext_resource type="Script" path="res://Enemies/EnemyMelee.gd" id="1_f8mrx"]
+[ext_resource type="SpriteFrames" uid="uid://cr2qmxxewmpwi" path="res://Enemies/EnemyMelee.tres" id="2_1tsni"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wf6an"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v658a"]
+radius = 65.9205
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1g2l"]
+size = Vector2(34.2296, 13.0288)
+
+[node name="EnemyMelee" type="CharacterBody2D" groups=["Enemies"]]
+scale = Vector2(2.6096, 2.6096)
+collision_mask = 14
+script = ExtResource("1_f8mrx")
+sprite_Frames = ExtResource("2_1tsni")
+walk_buffer = 1.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("2_1tsni")
+animation = &"attack"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wf6an")
+
+[node name="BodyArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea"]
+shape = SubResource("CircleShape2D_wf6an")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_v658a")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="AttackZone" type="Marker2D" parent="."]
+
+[node name="AttackArea" type="Area2D" parent="AttackZone"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone/AttackArea"]
+position = Vector2(-22.992, 0)
+scale = Vector2(0.6168, 0.6168)
+shape = SubResource("RectangleShape2D_a1g2l")
+disabled = true
+
+[connection signal="area_entered" from="BodyArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_entered"]

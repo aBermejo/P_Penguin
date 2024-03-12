@@ -239,7 +239,11 @@ func attack_control():
 
 
 func _on_area_2d_area_entered(area):
-	if area.owner is Enemy:
+	if area.owner is Enemy and area.name == "BodyArea":
 		health -= area.get_node("..").damage
-		if health == 0:
-			pass #TODO: Reiniciar al último save
+	elif area.owner is Enemy and area.name == "AttackArea":
+		health -= area.get_node("../..").damage
+		
+	print(health)
+	if health == 0:
+		pass #TODO: Reiniciar al último save

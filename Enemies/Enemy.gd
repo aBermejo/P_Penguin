@@ -14,10 +14,13 @@ var face_direction := -1
 var walk_buffer_timer : float = 0
 @export var health := 2
 @export var damage := 1
+var hor_direction := -1
 
 var state
 enum states{
 	WALK,
+	CHASE,
+	ATTACK,
 	DEATH
 }
 
@@ -27,6 +30,7 @@ func _ready():
 
 
 func _physics_process(delta):
+	update_face_direction()
 	match state:
 		states.WALK:
 			if not is_on_floor():
@@ -34,31 +38,34 @@ func _physics_process(delta):
 			patrullar()
 			move_and_slide()
 			timers(delta)
-			change_direction()
 		states.DEATH:
 			$CollisionShape2D.disabled = true
-			$Area2D/CollisionShape2D.disabled = true
+			$BodyArea/CollisionShape2D.disabled = true
 			queue_free()
 			
-			
+func update_face_direction():
+	if velocity.x > 0:
+		hor_direction = 1
+		apply_scale(Vector2(face_direction * hor_direction,1))		
+	elif velocity.x < 0:
+		hor_direction = -1
+		apply_scale(Vector2(face_direction * hor_direction,1))
+	face_direction = hor_direction
+
 func patrullar():
+	if walk_buffer_timer <= 0:
+		hor_direction *= -1
+		walk_buffer_timer = walk_buffer
 	animatedSprite.play("walk")
-	if face_direction > 0:
-		animatedSprite.flip_h = true
-	elif face_direction < 0:
-		animatedSprite.flip_h = false
-	velocity.x = speed * face_direction
+	velocity.x = speed * hor_direction
 
 func _on_area_2d_area_entered(area):
 	if area == player.get_node("./AttackZone/Area2D"):
 		health -= 1
-		if health == 0:
-			state = states.DEATH
-
-func change_direction():
-	if walk_buffer_timer <= 0:
-		face_direction *= -1
-		walk_buffer_timer = walk_buffer
+	elif area.owner is Penguin and area.get_node("..").state == 1:#estado de lanzado		
+		health -= 1
+	if health == 0:
+		state = states.DEATH
 
 func timers(delta: float) -> void:
 	walk_buffer_timer -= delta

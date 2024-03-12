@@ -21,9 +21,9 @@ sprite_frames = SubResource("SpriteFrames_052le")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_wf6an")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="BodyArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea"]
 shape = SubResource("CircleShape2D_wf6an")
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="BodyArea" to="." method="_on_area_2d_area_entered"]
