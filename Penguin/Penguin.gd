@@ -97,11 +97,11 @@ func timers(delta: float) -> void:
 	duration_timer -= delta
 
 func set_collision_shape_standing():
-	$CollisionShape2D.shape.extents = Vector2(8,19)
-	$CollisionShape2D.position = Vector2(0,-1.5)
+	$CollisionShape2D.shape.extents = Vector2(8,6)
+	$CollisionShape2D.position = Vector2(0,-2.8)
 	$CollisionShape2D.scale = Vector2(0.5,0.5)
-	$Area2D/CollisionShape2D.shape.extents = Vector2(8,19)
-	$Area2D/CollisionShape2D.position = Vector2(0,-1.5)
+	$Area2D/CollisionShape2D.shape.extents = Vector2(8,6)
+	$Area2D/CollisionShape2D.position = Vector2(0,-2.8)
 	$Area2D/CollisionShape2D.scale = Vector2(0.5,0.5)
 
 func set_collision_shape_lying():

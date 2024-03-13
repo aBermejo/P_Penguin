@@ -42,7 +42,7 @@ dash_duration = 0.03
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -42.5)
 offset = Vector2(0, 40)
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(1.75, 1.75)
 position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true
 script = ExtResource("3_mngju")

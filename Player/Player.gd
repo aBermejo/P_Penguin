@@ -57,7 +57,7 @@ var is_attacking := false
 @onready var attack_Zone_Collision := $AttackZone/Area2D/CollisionShape2D
 @onready var altura_Centro_Inicial := position.y
 var penguin_scene = preload("res://Penguin/Penguin.tscn")
-var max_penguins: int = 2
+@onready var max_penguins: int = 0
 var penguins: int = 0
 var canGrab: bool = true
 @onready var collision_shape := $CollisionShape2D
@@ -121,8 +121,11 @@ func x_movement(delta: float) -> void:
 	# Stop if we're not doing movement inputs.
 	if x_dir == 0: 
 		velocity.x = Vector2(velocity.x, 0).move_toward(Vector2(0,0), deceleration * delta).x
+		animatedSprite.play("idle")
+		
 		return
 	
+	animatedSprite.play("run")
 	
 	# Are we turning?
 	# Deciding between acceleration and turn_acceleration
