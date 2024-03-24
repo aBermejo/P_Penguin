@@ -8,7 +8,8 @@ var is_pressed: bool = false
 
 func press_button():
 	is_pressed = true
-	mechanism.signal_received()
+	if mechanism != null:
+		mechanism.signal_received()
 
 func unpress_button():
 	is_pressed = false

@@ -31,6 +31,6 @@ mechanism = NodePath("../WallBlock")
 position = Vector2(116, 304)
 scale = Vector2(2.34006, 2.34006)
 
-[node name="EnemyMelee" parent="." instance=ExtResource("9_niclv")]
+[node name="EnemyMelee3" parent="." instance=ExtResource("9_niclv")]
 position = Vector2(221, 318)
 walk_buffer = 2.0

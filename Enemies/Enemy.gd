@@ -25,6 +25,8 @@ enum states{
 }
 
 func _ready():
+	if MetSys.register_storable_object(self): # Calls queue_free() if already opened.
+		return
 	animatedSprite.sprite_frames = sprite_Frames
 	state = states.WALK
 
@@ -41,6 +43,7 @@ func _physics_process(delta):
 		states.DEATH:
 			$CollisionShape2D.disabled = true
 			$BodyArea/CollisionShape2D.disabled = true
+			MetSys.store_object(self)
 			queue_free()
 			
 func update_face_direction():

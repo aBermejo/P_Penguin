@@ -57,13 +57,19 @@ var is_attacking := false
 @onready var attack_Zone_Collision := $AttackZone/Area2D/CollisionShape2D
 @onready var altura_Centro_Inicial := position.y
 var penguin_scene = preload("res://Penguin/Penguin.tscn")
-var max_penguins: int = 2
+@onready var max_penguins: int = 0
 var penguins: int = 0
 var canGrab: bool = true
 @onready var collision_shape := $CollisionShape2D
-var health: int = 5
+var max_health: int = 5
+@onready var health = max_health
 #endregion
-
+func _ready():
+	pass
+	#var laData = MetSys.get_save_data()
+	#if laData != null:
+		#pass
+		#checkPingusColecionables()
 # All iputs we want to keep track of
 func get_input() -> Dictionary:
 	return {
@@ -215,6 +221,7 @@ func timers(delta: float) -> void:
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see Game.gd).
 	reset_position = position
+	reset_Pingus()
 
 func penguin():
 	var pingu = penguin_scene.instantiate()
@@ -243,7 +250,19 @@ func _on_area_2d_area_entered(area):
 		health -= area.get_node("..").damage
 	elif area.owner is Enemy and area.name == "AttackArea":
 		health -= area.get_node("../..").damage
-		
-	print(health)
 	if health == 0:
-		pass #TODO: Reiniciar al último save
+		kill()
+
+func kill():
+	# Player dies, reset the position to the entrance.
+	position = reset_position
+	health = max_health
+	reset_Pingus()
+	Game.get_singleton().load_room(MetSys.get_current_room_name())
+
+func reset_Pingus():
+	canGrab = true
+	var pingus = get_tree().get_nodes_in_group("Penguins")
+	for pingu in pingus:
+		pingu.delete()
+	

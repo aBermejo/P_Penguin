@@ -26,7 +26,6 @@ func _ready():
 	duration_timer = duration
 	state = states.FOLLOWING
 	posicionDeLaCola = player.penguins
-	print(posicionDeLaCola)
 	
 func _process(delta):
 	timers(delta)

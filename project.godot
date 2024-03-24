@@ -21,8 +21,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerStatus="*res://player_status.gd"
 MetSys="*res://addons/MetroidvaniaSystem/Nodes/Singleton.tscn"
+PlayerStatus="*res://player_status.gd"
+Global="res://_Scripts/Global.gd"
 
 [editor_plugins]
 

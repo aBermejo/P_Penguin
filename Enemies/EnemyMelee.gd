@@ -5,6 +5,8 @@ extends Enemy
 
 
 func _ready():
+	if MetSys.register_storable_object(self): # Calls queue_free() if already opened.
+		return
 	attack_Zone_Collision.disabled = true
 	animatedSprite.sprite_frames = sprite_Frames
 	state = states.WALK
@@ -27,7 +29,6 @@ func _physics_process(delta):
 			modulate = Color(255,255,255)
 			var target = Vector2(player.position.x, position.y)
 			velocity = position.direction_to(target) * speed
-			print(position.distance_to(target))
 			if position.distance_to(target) > 60:
 				move_and_slide()
 			else:
@@ -37,6 +38,7 @@ func _physics_process(delta):
 		states.DEATH:
 			$CollisionShape2D.disabled = true
 			$BodyArea/CollisionShape2D.disabled = true
+			MetSys.store_object(self)
 			queue_free()
 
 
