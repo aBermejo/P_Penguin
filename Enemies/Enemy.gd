@@ -65,7 +65,7 @@ func patrullar():
 func _on_area_2d_area_entered(area):
 	if area == player.get_node("./AttackZone/Area2D"):
 		health -= 1
-	elif area.owner is Penguin and area.get_node("..").state == 1:#estado de lanzado		
+	elif area.owner is Penguin and area.get_node("..").state == 1:#estado de lanzado
 		health -= 1
 	if health == 0:
 		state = states.DEATH

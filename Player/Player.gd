@@ -127,8 +127,11 @@ func x_movement(delta: float) -> void:
 	# Stop if we're not doing movement inputs.
 	if x_dir == 0: 
 		velocity.x = Vector2(velocity.x, 0).move_toward(Vector2(0,0), deceleration * delta).x
+		animatedSprite.play("idle")
+		
 		return
 	
+	animatedSprite.play("run")
 	
 	# Are we turning?
 	# Deciding between acceleration and turn_acceleration
@@ -265,4 +268,3 @@ func reset_Pingus():
 	var pingus = get_tree().get_nodes_in_group("Penguins")
 	for pingu in pingus:
 		pingu.delete()
-	

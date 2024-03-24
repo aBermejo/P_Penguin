@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dv3a36adtkjy3" path="res://room_instance.tscn" id="2_f041u"]
 [ext_resource type="PackedScene" uid="uid://cda8jkuq1jc6w" path="res://save_point.tscn" id="3_xfvv3"]
 
-[node name="Map" type="Node2D"]
+[node name="Map2" type="Node2D"]
 
 [node name="TileMap" parent="." instance=ExtResource("1_bvxk7")]
 position = Vector2(1343, 585)

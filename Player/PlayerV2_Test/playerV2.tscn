@@ -1,8 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://c7uvx50om1kui"]
+[gd_scene load_steps=17 format=3 uid="uid://c7uvx50om1kui"]
 
-[ext_resource type="Texture2D" uid="uid://jo01y4ijrkq5" path="res://Art/PJ/mockUp_pj-Sheet.png" id="1_dkew0"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_m3lg1"]
+[ext_resource type="Texture2D" uid="uid://m04hfa2l14ij" path="res://Art/PJ/player_idle/player_idle1.png" id="2_1i5d5"]
 [ext_resource type="Texture2D" uid="uid://cj7xx4qs8crdj" path="res://Art/PJ/attackMockUp.png" id="2_sli8w"]
+[ext_resource type="Texture2D" uid="uid://6yk8g361ob50" path="res://Art/PJ/player_idle/player_idle2.png" id="3_1suqr"]
+[ext_resource type="Texture2D" uid="uid://b6rhlebq4h6ad" path="res://Art/PJ/player_idle/player_idle3.png" id="4_j801e"]
+[ext_resource type="Texture2D" uid="uid://65k2nd2rgbwu" path="res://Art/PJ/player_running/player_running2.png" id="5_rydss"]
+[ext_resource type="Texture2D" uid="uid://y0mrp27nnmc3" path="res://Art/PJ/player_running/player_running3.png" id="6_n5ff1"]
+[ext_resource type="Texture2D" uid="uid://c6mjsg0eb5sgr" path="res://Art/PJ/player_running/player_running4.png" id="7_dyufq"]
+[ext_resource type="Texture2D" uid="uid://c138fk6f2ie4b" path="res://Art/PJ/player_running/player_running1.png" id="8_ndijm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_diyuo"]
 atlas = ExtResource("2_sli8w")
@@ -14,18 +20,6 @@ region = Rect2(63, 0, 63, 42)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7lo2s"]
 atlas = ExtResource("2_sli8w")
-region = Rect2(126, 0, 63, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bnl45"]
-atlas = ExtResource("1_dkew0")
-region = Rect2(0, 0, 63, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2wiwo"]
-atlas = ExtResource("1_dkew0")
-region = Rect2(63, 0, 63, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pklj1"]
-atlas = ExtResource("1_dkew0")
 region = Rect2(126, 0, 63, 42)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_frcpc"]
@@ -63,17 +57,37 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bnl45")
+"texture": ExtResource("2_1i5d5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2wiwo")
+"texture": ExtResource("3_1suqr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pklj1")
+"texture": ExtResource("4_j801e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1suqr")
 }],
 "loop": true,
 "name": &"idle",
 "speed": 6.0
+}, {
+"frames": [{
+"duration": 1.2,
+"texture": ExtResource("5_rydss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n5ff1")
+}, {
+"duration": 1.2,
+"texture": ExtResource("7_dyufq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ndijm")
+}],
+"loop": true,
+"name": &"run",
+"speed": 7.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pcgab"]
@@ -89,7 +103,6 @@ height = 30.3155
 
 [node name="PlayerV2" type="CharacterBody2D" groups=["Player"]]
 texture_filter = 1
-position = Vector2(0, -43)
 scale = Vector2(2, 2.062)
 collision_mask = 14
 script = ExtResource("1_m3lg1")
@@ -97,18 +110,28 @@ max_speed = 10600.0
 acceleration = 5880.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.5, -18.4287)
+scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_frcpc")
 animation = &"attack"
 autoplay = "idle"
+frame_progress = 0.731416
+offset = Vector2(-2.5, -8.72939)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0.5, -16.9738)
+scale = Vector2(0.844811, 0.844811)
 shape = SubResource("CapsuleShape2D_pcgab")
 
 [node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0.5, -16.9738)
 
 [node name="AttackZone" type="Marker2D" parent="."]
+position = Vector2(0.5, -16.4888)
 
 [node name="Area2D" type="Area2D" parent="AttackZone"]
+position = Vector2(4.5, -5.33463)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone/Area2D"]
@@ -118,6 +141,8 @@ shape = SubResource("CapsuleShape2D_8kvtd")
 disabled = true
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
+position = Vector2(0.5, -20.3686)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 scale = Vector2(0.783955, 1.33737)
